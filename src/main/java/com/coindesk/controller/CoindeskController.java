@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.coindesk.service.CoindeskService;
 import com.coindesk.vo.CoindeskApiResponse;
+import com.coindesk.vo.CoindeskResponse;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,15 @@ public class CoindeskController {
     @GetMapping("/api/v1")
     public ResponseEntity<CoindeskApiResponse> getCoindeskApi() {
         CoindeskApiResponse response = coindeskService.getCoindeskApi();
+        return ResponseEntity.ok(response);
+    }
+
+    /**
+     * 取得 Coindesk API 資料 做資料轉換
+     */
+    @GetMapping("/api/v2")
+    public ResponseEntity<CoindeskResponse> getCoindesk() {
+        CoindeskResponse response = coindeskService.getCoindesk();
         return ResponseEntity.ok(response);
     }
 
