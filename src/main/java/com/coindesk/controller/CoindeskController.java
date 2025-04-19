@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.coindesk.service.CoindeskService;
+import com.coindesk.vo.CoindeskApiResponse;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-
 
 /**
  * @category Controller
@@ -24,10 +24,14 @@ public class CoindeskController {
 
     private final CoindeskService coindeskService;
 
-    @GetMapping("/api")
-    public ResponseEntity<Void> getCoindeskApi() {
-        coindeskService.getCoindeskApi();
-        return ResponseEntity.ok().build();
+    /**
+     * 取得 Coindesk API 資料
+     */
+    @Tag(name = "Coindesk API v1", description = "取得原 Coindesk API 資料")
+    @GetMapping("/api/v1")
+    public ResponseEntity<CoindeskApiResponse> getCoindeskApi() {
+        CoindeskApiResponse response = coindeskService.getCoindeskApi();
+        return ResponseEntity.ok(response);
     }
 
 }
