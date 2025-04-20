@@ -10,4 +10,8 @@ public abstract class BaseController {
         return ResponseEntity.ok().body(new BaseResponse<>("交易成功", body));
     }
 
+    public <T> ResponseEntity<BaseResponse<Void>> ok() {
+        return ResponseEntity.ok().body(new BaseResponse<>("交易成功"));
+    }
+
 }
