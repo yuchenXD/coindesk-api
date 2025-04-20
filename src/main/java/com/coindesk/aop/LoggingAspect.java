@@ -1,9 +1,5 @@
 package com.coindesk.aop;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.aspectj.lang.JoinPoint;
@@ -54,6 +50,7 @@ public class LoggingAspect {
         // controller
         String className = joinPoint.getTarget().getClass().getSimpleName();
         String methodName = joinPoint.getSignature().getName();
+        Object[] args = joinPoint.getArgs();
         // log
         appendLine(sb, LINE);
         appendLine(sb, "  http");
@@ -63,8 +60,10 @@ public class LoggingAspect {
         appendLine(sb, "  controller");
         appendLine(sb, "    class        : {}() { }");
         appendLine(sb, "    method       : {}()");
+        appendLine(sb, "  params");
+        appendLine(sb, "    args:        : {}");
         appendLine(sb, LINE);
-        log.info(sb.toString(), method, url, contentType, className, methodName);
+        log.info(sb.toString(), method, url, contentType, className, methodName, args);
     }
 
     /**
