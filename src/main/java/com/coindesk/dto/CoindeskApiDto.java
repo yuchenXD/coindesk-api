@@ -1,10 +1,7 @@
 package com.coindesk.dto;
 
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;
