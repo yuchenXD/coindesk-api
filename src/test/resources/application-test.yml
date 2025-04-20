@@ -1,0 +1,32 @@
+spring:
+  # H2 資料庫配置
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  # SQL 初始化配置
+  sql:
+    init:
+      schema-locations: classpath:schema.sql
+      mode: always
+
+  # JPA 配置
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    defer-datasource-initialization: true
+
+# 應用程式自定義配置
+app:
+  rest-template:
+    connect-timeout: 10000
+    read-timeout: 30000
+    coindesk:
+      url: https://kengp3.github.io/blog/coindesk.json
