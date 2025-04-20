@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.coindesk.constant.StatusCode;
 import com.coindesk.controller.base.BaseController;
 import com.coindesk.service.CurrencyService;
 import com.coindesk.vo.CurrencyCreateRequest;
@@ -53,7 +54,7 @@ public class CurrencyController extends BaseController {
             // 查詢單一幣別
             response = currencyService.query(code);
         }
-        return ok(response);
+        return ok(response, StatusCode.READ_SUCCESS);
     }
 
     /**
@@ -65,7 +66,7 @@ public class CurrencyController extends BaseController {
     @Operation(summary = "新增幣別", description = "新增幣別資料")
     public ResponseEntity<BaseResponse<Void>> create(@RequestBody @Valid CurrencyCreateRequest request) {
         currencyService.create(request);
-        return ok();
+        return ok(StatusCode.CREATE_SUCCESS);
     }
 
     /**
@@ -77,7 +78,7 @@ public class CurrencyController extends BaseController {
     @Operation(summary = "更新幣別", description = "更新幣別資料")
     public ResponseEntity<BaseResponse<Void>> update(@RequestBody @Valid CurrencyUpdateRequest request) {
         currencyService.update(request);
-        return ok();
+        return ok(StatusCode.UPDATE_SUCCESS);
     }
 
     /**
@@ -89,7 +90,7 @@ public class CurrencyController extends BaseController {
     @Operation(summary = "刪除幣別", description = "刪除幣別資料")
     public ResponseEntity<BaseResponse<Void>> delete(@RequestParam(required = true) String code) {
         currencyService.delete(code);
-        return ok();
+        return ok(StatusCode.DELETE_SUCCESS);
     }
 
 }
