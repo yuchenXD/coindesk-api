@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
@@ -12,7 +13,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.coindesk.dao.CurrencyDao;
 import com.coindesk.dto.CoindeskApiDto;
+import com.coindesk.repository.CurrencyRepository;
 import com.coindesk.vo.CoindeskApiResponse;
 import com.coindesk.vo.CoindeskResponse;
 
@@ -30,6 +33,8 @@ import lombok.extern.slf4j.Slf4j;
 public class CoindeskService {
 
     private final RestTemplate restTemplate;
+
+    private final CurrencyRepository currencyRepository;
 
     @Value("${app.rest-template.coindesk.url}")
     private String coindeskUrl;
@@ -96,8 +101,12 @@ public class CoindeskService {
      */
     private CoindeskResponse.CurrencyInfo getCurrencyInfo(CoindeskApiDto.Bpi bpi) {
         CoindeskResponse.CurrencyInfo info = new CoindeskResponse.CurrencyInfo();
+        Optional<CurrencyDao> currencyOpt = currencyRepository.findByCode(bpi.getCode());
+        if (!currencyOpt.isPresent()) {
+            throw new IllegalArgumentException("找不到幣別代碼: " + bpi.getCode());
+        }
         info.setCode(bpi.getCode());
-        info.setName(bpi.getDescription());
+        info.setName(currencyOpt.get().getChineseName());
         info.setSymbol(bpi.getSymbol());
         info.setRate(bpi.getRateFloat());
         return info;
